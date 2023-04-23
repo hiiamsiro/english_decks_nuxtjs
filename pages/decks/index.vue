@@ -1,8 +1,13 @@
 <template>
   <div>
     <h1>Please enter number of decks to show:</h1>
-    <input v-model="deckID" type="text" placeholder="Please enter deckID" />
-    <button @click="showDeck">Go to deck</button>
+    <input
+      class="form_control"
+      v-model="deckID"
+      type="text"
+      placeholder="Please enter deckID"
+    />
+    <button class="btn btn_success" @click="showDeck">Go to deck</button>
   </div>
 </template>
 
