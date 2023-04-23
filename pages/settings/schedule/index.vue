@@ -1,6 +1,6 @@
 <template>
   <main class="general">
-    <h3>General settings...</h3>
+    <h3>Schedule settings...</h3>
   </main>
 </template>
 
