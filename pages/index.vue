@@ -31,8 +31,7 @@ export default {
   height: 220px;
   margin-top: 2rem;
   .thumbnail-banner {
-    background: url('https://images.twinkl.co.uk/tw1n/image/private/t_630/image_repo/65/34/AU-T2-E-001-English-Display-Banner.jpg')
-      center center;
+    background: url('~assets/images/banner.jpg') center center;
     background-size: cover;
     height: inherit;
   }
