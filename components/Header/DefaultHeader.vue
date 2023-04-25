@@ -43,6 +43,9 @@ header {
         &:hover {
           text-decoration: underline;
         }
+        &.nuxt-link-exact-active {
+          color: rgb(158, 158, 158);
+        }
       }
     }
   }
