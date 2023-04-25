@@ -4,40 +4,46 @@
       <h3>List of your decks:</h3>
       <ul class="decks-list">
         <li>
-          <div class="card deck-card">
-            <img
-              src="https://tranduchuan.com/wp-content/uploads/2019/12/hardest-part-learning-english.jpg"
-              alt="Thumbail card"
-            />
-            <div class="card_body">
-              <h3>Title card</h3>
-              <p>Description card</p>
+          <nuxt-link class="deck" to="/decks/1">
+            <div class="card deck-card">
+              <img
+                src="https://tranduchuan.com/wp-content/uploads/2019/12/hardest-part-learning-english.jpg"
+                alt="Thumbnail card"
+              />
+              <div class="card_body">
+                <h3>Title card</h3>
+                <p>Description card</p>
+              </div>
             </div>
-          </div>
+          </nuxt-link>
         </li>
         <li>
-          <div class="card deck-card">
-            <img
-              src="https://tranduchuan.com/wp-content/uploads/2019/12/hardest-part-learning-english.jpg"
-              alt="Thumbail card"
-            />
-            <div class="card_body">
-              <h3>Title card</h3>
-              <p>Description card</p>
+          <nuxt-link class="deck" to="/decks/2">
+            <div class="card deck-card">
+              <img
+                src="https://tranduchuan.com/wp-content/uploads/2019/12/hardest-part-learning-english.jpg"
+                alt="Thumbnail card"
+              />
+              <div class="card_body">
+                <h3>Title card</h3>
+                <p>Description card</p>
+              </div>
             </div>
-          </div>
+          </nuxt-link>
         </li>
         <li>
-          <div class="card deck-card">
-            <img
-              src="https://tranduchuan.com/wp-content/uploads/2019/12/hardest-part-learning-english.jpg"
-              alt="Thumbail card"
-            />
-            <div class="card_body">
-              <h3>Title card</h3>
-              <p>Description card</p>
+          <nuxt-link class="deck" to="/decks/3">
+            <div class="card deck-card">
+              <img
+                src="https://tranduchuan.com/wp-content/uploads/2019/12/hardest-part-learning-english.jpg"
+                alt="Thumbnail card"
+              />
+              <div class="card_body">
+                <h3>Title card</h3>
+                <p>Description card</p>
+              </div>
             </div>
-          </div>
+          </nuxt-link>
         </li>
       </ul>
     </div>
@@ -45,25 +51,14 @@
 </template>
 
 <script>
-export default {
-  data() {
-    return {
-      deckID: '1',
-    }
-  },
-  methods: {
-    showDeck() {
-      this.$router.push(`/decks/${this.deckID}`)
-    },
-  },
-}
+export default {}
 </script>
 
 <style lang="scss">
 .decks-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
+  .deck {
+    display: block;
+  }
   li {
     margin-bottom: 1rem;
     &:last-child {
