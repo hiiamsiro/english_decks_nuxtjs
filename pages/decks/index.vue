@@ -1,7 +1,12 @@
 <template>
   <div>
     <div class="ct">
-      <h3>List of your decks:</h3>
+      <div class="flex justify-between my-3">
+        <h3>List of your decks:</h3>
+        <button class="btn btn_success" @click.prevent="openModal">
+          Create a deck
+        </button>
+      </div>
       <ul class="decks-list">
         <li>
           <nuxt-link class="deck" to="/decks/1">
@@ -47,11 +52,28 @@
         </li>
       </ul>
     </div>
+    <v-modal name="test">
+      <div class="test_body">
+        <h1>Hello test modal</h1>
+        <button class="btn btn_danger" @click.prevent="closeModal">
+          Close Modal
+        </button>
+      </div>
+    </v-modal>
   </div>
 </template>
 
 <script>
-export default {}
+export default {
+  methods: {
+    closeModal() {
+      this.$modal.close({ name: 'test' })
+    },
+    openModal() {
+      this.$modal.open({ name: 'test' })
+    },
+  },
+}
 </script>
 
 <style lang="scss">
@@ -74,5 +96,9 @@ export default {}
       height: auto;
     }
   }
+}
+.test_body {
+  background-color: #fff;
+  padding: 1rem;
 }
 </style>
