@@ -18,11 +18,13 @@
 </template>
 
 <script>
-import ModalPlugin from './modal-plugin.js'
+import VModal from './handle.js'
 export default {
-  name: {
-    type: String,
-    required: true,
+  props: {
+    name: {
+      type: String,
+      required: true,
+    },
   },
   data() {
     return {
@@ -32,16 +34,16 @@ export default {
   },
   beforeMount() {
     // open event
-    ModalPlugin.EventBus.$on('open', (params) => {
+    VModal.EventBus.$on('open', (params) => {
       if (this.name === params.name) {
         this.open(params)
       }
     })
 
     // close event
-    ModalPlugin.EventBus.$on('close', (params) => {
+    VModal.EventBus.$on('close', (params) => {
       if (this.name === params.name) {
-        this.open(params)
+        this.close(params)
       }
     })
   },
