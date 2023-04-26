@@ -8,17 +8,13 @@
         </button>
       </div>
       <ul class="decks-list">
-        <li v-for="deck in decks" :key="deck._id">
-          <nuxt-link class="deck" to="/decks/1">
-            <div class="card deck-card">
-              <img :src="deck.thumbnail" :alt="`Thumbnail of ${deck.name}`" />
-              <div class="card_body">
-                <h3>{{ deck.name }}</h3>
-                <p>{{ deck.description }}</p>
-              </div>
-            </div>
-          </nuxt-link>
-        </li>
+        <deck-list
+          v-for="deck in decks"
+          :key="deck._id"
+          :name="deck.name"
+          :description="deck.description"
+          :thumbnail="deck.thumbnail"
+        />
       </ul>
     </div>
 
@@ -62,7 +58,11 @@
 </template>
 
 <script>
+import DeckList from '@/components/Decks/DeckList'
 export default {
+  components: {
+    DeckList,
+  },
   data() {
     return {
       decks: [
