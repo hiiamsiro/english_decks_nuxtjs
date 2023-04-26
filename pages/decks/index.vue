@@ -8,44 +8,13 @@
         </button>
       </div>
       <ul class="decks-list">
-        <li>
+        <li v-for="deck in decks" :key="deck._id">
           <nuxt-link class="deck" to="/decks/1">
             <div class="card deck-card">
-              <img
-                src="https://tranduchuan.com/wp-content/uploads/2019/12/hardest-part-learning-english.jpg"
-                alt="Thumbnail card"
-              />
+              <img :src="deck.thumbnail" :alt="`Thumbnail of ${deck.name}`" />
               <div class="card_body">
-                <h3>Title card</h3>
-                <p>Description card</p>
-              </div>
-            </div>
-          </nuxt-link>
-        </li>
-        <li>
-          <nuxt-link class="deck" to="/decks/2">
-            <div class="card deck-card">
-              <img
-                src="https://tranduchuan.com/wp-content/uploads/2019/12/hardest-part-learning-english.jpg"
-                alt="Thumbnail card"
-              />
-              <div class="card_body">
-                <h3>Title card</h3>
-                <p>Description card</p>
-              </div>
-            </div>
-          </nuxt-link>
-        </li>
-        <li>
-          <nuxt-link class="deck" to="/decks/3">
-            <div class="card deck-card">
-              <img
-                src="https://tranduchuan.com/wp-content/uploads/2019/12/hardest-part-learning-english.jpg"
-                alt="Thumbnail card"
-              />
-              <div class="card_body">
-                <h3>Title card</h3>
-                <p>Description card</p>
+                <h3>{{ deck.name }}</h3>
+                <p>{{ deck.description }}</p>
               </div>
             </div>
           </nuxt-link>
@@ -94,6 +63,36 @@
 
 <script>
 export default {
+  data() {
+    return {
+      decks: [
+        {
+          _id: 1,
+          name: 'Learn English',
+          description:
+            'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+          thumbnail:
+            'https://tranduchuan.com/wp-content/uploads/2019/12/hardest-part-learning-english.jpg',
+        },
+        {
+          _id: 2,
+          name: 'Learn English',
+          description:
+            'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+          thumbnail:
+            'https://tranduchuan.com/wp-content/uploads/2019/12/hardest-part-learning-english.jpg',
+        },
+        {
+          _id: 3,
+          name: 'Learn English',
+          description:
+            'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+          thumbnail:
+            'https://tranduchuan.com/wp-content/uploads/2019/12/hardest-part-learning-english.jpg',
+        },
+      ],
+    }
+  },
   methods: {
     closeModal() {
       this.$modal.close({ name: 'CreateDeckModal' })

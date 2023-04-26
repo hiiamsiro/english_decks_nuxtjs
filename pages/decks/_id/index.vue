@@ -11,48 +11,12 @@
         </div>
         <hr class="divide" />
         <div class="r">
-          <div class="c_3">
+          <div v-for="card in cards" :key="card._id" class="c_3">
             <div class="card">
               <div class="front-card">
-                <img
-                  src="https://www.fluentu.com/blog/english/wp-content/uploads/sites/4/2014/05/Apps-for-Learning-English-1024x683.jpg"
-                  alt="Thumbnail card"
-                />
+                <img :src="card.picture" />
               </div>
-              <div class="back-card"></div>
-            </div>
-          </div>
-          <div class="c_3">
-            <div class="card">
-              <div class="front-card">
-                <img
-                  src="https://www.fluentu.com/blog/english/wp-content/uploads/sites/4/2014/05/Apps-for-Learning-English-1024x683.jpg"
-                  alt="Thumbnail card"
-                />
-              </div>
-              <div class="back-card"></div>
-            </div>
-          </div>
-          <div class="c_3">
-            <div class="card">
-              <div class="front-card">
-                <img
-                  src="https://www.fluentu.com/blog/english/wp-content/uploads/sites/4/2014/05/Apps-for-Learning-English-1024x683.jpg"
-                  alt="Thumbnail card"
-                />
-              </div>
-              <div class="back-card"></div>
-            </div>
-          </div>
-          <div class="c_3">
-            <div class="card">
-              <div class="front-card">
-                <img
-                  src="https://www.fluentu.com/blog/english/wp-content/uploads/sites/4/2014/05/Apps-for-Learning-English-1024x683.jpg"
-                  alt="Thumbnail card"
-                />
-              </div>
-              <div class="back-card"></div>
+              <div class="back-card">{{ card.keyword }}</div>
             </div>
           </div>
         </div>
@@ -101,6 +65,42 @@
 export default {
   validate({ params }) {
     return /^[0-9]$/.test(params.id)
+  },
+  data() {
+    return {
+      cards: [
+        {
+          _id: 1,
+          picture:
+            'https://www.fluentu.com/blog/english/wp-content/uploads/sites/4/2014/05/Apps-for-Learning-English-1024x683.jpg',
+          keyword: 'English',
+        },
+        {
+          _id: 2,
+          picture:
+            'https://www.fluentu.com/blog/english/wp-content/uploads/sites/4/2014/05/Apps-for-Learning-English-1024x683.jpg',
+          keyword: 'English',
+        },
+        {
+          _id: 3,
+          picture:
+            'https://www.fluentu.com/blog/english/wp-content/uploads/sites/4/2014/05/Apps-for-Learning-English-1024x683.jpg',
+          keyword: 'English',
+        },
+        {
+          _id: 4,
+          picture:
+            'https://www.fluentu.com/blog/english/wp-content/uploads/sites/4/2014/05/Apps-for-Learning-English-1024x683.jpg',
+          keyword: 'English',
+        },
+        {
+          _id: 5,
+          picture:
+            'https://www.fluentu.com/blog/english/wp-content/uploads/sites/4/2014/05/Apps-for-Learning-English-1024x683.jpg',
+          keyword: 'English',
+        },
+      ],
+    }
   },
   methods: {
     closeModal() {
