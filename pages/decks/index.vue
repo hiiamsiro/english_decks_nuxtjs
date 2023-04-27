@@ -106,6 +106,9 @@ export default {
         context.error(e)
       })
   },
+  created() {
+    this.$store.dispatch('setDecks', this.decks)
+  },
   methods: {
     closeModal() {
       this.$modal.close({ name: 'CreateDeckModal' })
