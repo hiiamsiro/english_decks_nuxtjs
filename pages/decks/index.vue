@@ -103,7 +103,7 @@ export default {
       })
       .catch((e) => {
         // eslint-disable-next-line no-console
-        console.log(e)
+        context.error(e)
       })
   },
   created() {
