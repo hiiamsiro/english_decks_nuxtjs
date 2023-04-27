@@ -68,20 +68,29 @@ export default {
   validate({ params }) {
     return /^[0-9]$/.test(params.id)
   },
-  asyncData(context, callback) {
-    // eslint-disable-next-line nuxt/no-timing-in-fetch-data
-    setTimeout(() => {
-      callback(null, {
-        deck: {
-          _id: 1,
-          name: `Learn English by decks ${context.params.id}`,
-          description:
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-          thumbnail:
-            'https://tranduchuan.com/wp-content/uploads/2019/12/hardest-part-learning-english.jpg',
-        },
+  asyncData(context) {
+    return new Promise((resolve, reject) => {
+      // eslint-disable-next-line nuxt/no-timing-in-fetch-data
+      setTimeout(() => {
+        resolve({
+          deck: {
+            _id: 1,
+            name: `Learn English by decks ${context.params.id}`,
+            description:
+              'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+            thumbnail:
+              'https://tranduchuan.com/wp-content/uploads/2019/12/hardest-part-learning-english.jpg',
+          },
+        })
+      }, 1500)
+    })
+      .then((data) => {
+        return data
       })
-    }, 1500)
+      .catch((e) => {
+        // eslint-disable-next-line no-console
+        console.log(e)
+      })
   },
   data() {
     return {

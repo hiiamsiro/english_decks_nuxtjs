@@ -64,38 +64,47 @@ export default {
   components: {
     DeckList,
   },
-  asyncData(context, callback) {
-    // eslint-disable-next-line nuxt/no-timing-in-fetch-data
-    setTimeout(() => {
-      callback(null, {
-        decks: [
-          {
-            _id: 1,
-            name: 'Learn English',
-            description:
-              'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-            thumbnail:
-              'https://tranduchuan.com/wp-content/uploads/2019/12/hardest-part-learning-english.jpg',
-          },
-          {
-            _id: 2,
-            name: 'Learn English',
-            description:
-              'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-            thumbnail:
-              'https://tranduchuan.com/wp-content/uploads/2019/12/hardest-part-learning-english.jpg',
-          },
-          {
-            _id: 3,
-            name: 'Learn English',
-            description:
-              'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-            thumbnail:
-              'https://tranduchuan.com/wp-content/uploads/2019/12/hardest-part-learning-english.jpg',
-          },
-        ],
+  asyncData(context) {
+    return new Promise((resolve, reject) => {
+      // eslint-disable-next-line nuxt/no-timing-in-fetch-data
+      setTimeout(() => {
+        resolve({
+          decks: [
+            {
+              _id: 1,
+              name: 'Learn English',
+              description:
+                'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+              thumbnail:
+                'https://tranduchuan.com/wp-content/uploads/2019/12/hardest-part-learning-english.jpg',
+            },
+            {
+              _id: 2,
+              name: 'Learn English',
+              description:
+                'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+              thumbnail:
+                'https://tranduchuan.com/wp-content/uploads/2019/12/hardest-part-learning-english.jpg',
+            },
+            {
+              _id: 3,
+              name: 'Learn English',
+              description:
+                'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+              thumbnail:
+                'https://tranduchuan.com/wp-content/uploads/2019/12/hardest-part-learning-english.jpg',
+            },
+          ],
+        })
+      }, 1500)
+    })
+      .then((data) => {
+        return data
       })
-    }, 1500)
+      .catch((e) => {
+        // eslint-disable-next-line no-console
+        context.error(e)
+      })
   },
   methods: {
     closeModal() {
