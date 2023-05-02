@@ -4,6 +4,7 @@ const VModal = {
   install(Vue) {
     this.EventBus = new Vue()
 
+    // eslint-disable-next-line vue/component-definition-name-casing
     Vue.component('v-modal', Layout)
 
     Vue.prototype.$modal = {

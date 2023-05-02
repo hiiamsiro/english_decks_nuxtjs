@@ -23,98 +23,45 @@
     <v-modal name="CreateDeckModal">
       <div class="modal_body">
         <h2>Create a new deck</h2>
-        <form action="">
-          <div class="form_group">
-            <label for="">Name:</label>
-            <input
-              class="form_control"
-              type="text"
-              placeholder="Please enter deck name"
-            />
-          </div>
-          <div class="form_group">
-            <label for="">Description:</label>
-            <textarea
-              class="form_control"
-              placeholder="Please enter description"
-            />
-          </div>
-          <div class="form_group">
-            <label for="">Thumbnail:</label>
-            <input type="file" />
-            <div class="preview"></div>
-          </div>
-          <div class="form_group flex justify-end">
-            <button class="btn btn_danger" @click.prevent="closeModal">
-              Close
-            </button>
-            <button class="btn btn_success ml-3" @click.prevent="createDeck">
-              Create
-            </button>
-          </div>
-        </form>
+        <deck-form @submit="onSubmit" />
       </div>
     </v-modal>
   </div>
 </template>
 
 <script>
+import axios from 'axios'
+
 import DeckList from '@/components/Decks/DeckList'
+import DeckForm from '@/components/Decks/DeckForm'
 export default {
   components: {
     DeckList,
+    DeckForm,
   },
-  asyncData(context) {
-    return new Promise((resolve, reject) => {
-      // eslint-disable-next-line nuxt/no-timing-in-fetch-data
-      setTimeout(() => {
-        resolve({
-          decks: [
-            {
-              _id: 1,
-              name: 'Learn English',
-              description:
-                'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-              thumbnail:
-                'https://tranduchuan.com/wp-content/uploads/2019/12/hardest-part-learning-english.jpg',
-            },
-            {
-              _id: 2,
-              name: 'Learn English',
-              description:
-                'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-              thumbnail:
-                'https://tranduchuan.com/wp-content/uploads/2019/12/hardest-part-learning-english.jpg',
-            },
-            {
-              _id: 3,
-              name: 'Learn English',
-              description:
-                'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-              thumbnail:
-                'https://tranduchuan.com/wp-content/uploads/2019/12/hardest-part-learning-english.jpg',
-            },
-          ],
-        })
-      }, 1500)
-    })
-      .then((data) => {
-        return data
-      })
-      .catch((e) => {
-        // eslint-disable-next-line no-console
-        context.error(e)
-      })
-  },
-  created() {
-    this.$store.dispatch('setDecks', this.decks)
+  computed: {
+    decks() {
+      return this.$store.getters.decks
+    },
   },
   methods: {
-    closeModal() {
-      this.$modal.close({ name: 'CreateDeckModal' })
-    },
     openModal() {
       this.$modal.open({ name: 'CreateDeckModal' })
+    },
+    onSubmit(deckData) {
+      axios
+        .post(
+          'https://nuxt-learning-english-8bfd6-default-rtdb.asia-southeast1.firebasedatabase.app/deck.json',
+          deckData
+        )
+        .then((data) => {
+          // eslint-disable-next-line no-console
+          console.log(data)
+        })
+        .catch((e) => {
+          // eslint-disable-next-line no-console
+          console.log(e)
+        })
     },
   },
 }
