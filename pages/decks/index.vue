@@ -51,7 +51,7 @@ export default {
     onSubmit(deckData) {
       axios
         .post(
-          'https://nuxt-learning-english-8bfd6-default-rtdb.asia-southeast1.firebasedatabase.app/deck.json',
+          'https://nuxt-learning-english-8bfd6-default-rtdb.asia-southeast1.firebasedatabase.app/decks.json',
           deckData
         )
         .then((data) => {

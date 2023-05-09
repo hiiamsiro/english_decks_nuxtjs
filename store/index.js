@@ -16,7 +16,7 @@ const createStore = () => {
     actions: {
       nuxtServerInit(vuexContext, context) {
         return axios
-          .get('https://nuxt-learning-english-8bfd6-default-rtdb.asia-southeast1.firebasedatabase.app/deck.json')
+          .get('https://nuxt-learning-english-8bfd6-default-rtdb.asia-southeast1.firebasedatabase.app/decks.json')
           .then((response) => {
             const decksArr = []
             for (const key in response.data) {
