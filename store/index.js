@@ -1,3 +1,5 @@
+import axios from 'axios'
+
 import Vuex from 'vuex'
 
 const createStore = () => {
@@ -13,41 +15,17 @@ const createStore = () => {
     },
     actions: {
       nuxtServerInit(vuexContext, context) {
-        return new Promise((resolve, reject) => {
-          // eslint-disable-next-line nuxt/no-timing-in-fetch-data
-          setTimeout(() => {
-            resolve({
-              decks: [
-                {
-                  _id: 1,
-                  name: 'Learn English',
-                  description:
-                    'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-                  thumbnail:
-                    'https://tranduchuan.com/wp-content/uploads/2019/12/hardest-part-learning-english.jpg',
-                },
-                {
-                  _id: 2,
-                  name: 'Learn English',
-                  description:
-                    'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-                  thumbnail:
-                    'https://tranduchuan.com/wp-content/uploads/2019/12/hardest-part-learning-english.jpg',
-                },
-                {
-                  _id: 3,
-                  name: 'Learn English',
-                  description:
-                    'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-                  thumbnail:
-                    'https://tranduchuan.com/wp-content/uploads/2019/12/hardest-part-learning-english.jpg',
-                },
-              ],
-            })
-          }, 1500)
-        }).then((data) => {
-          vuexContext.commit('setDecks', data.decks)
-        })
+        return axios
+          .get('https://nuxt-learning-english-8bfd6-default-rtdb.asia-southeast1.firebasedatabase.app/deck.json')
+          .then((response) => {
+            const decksArr = []
+            for (const key in response.data) {
+              decksArr.push({ ...response.data[key], id: key })
+            }
+            vuexContext.commit('setDecks', decksArr)
+          }).catch((e) => {
+            context.error(e);
+          })
       },
       setDecks(vuexContext, decks) {
         vuexContext.commit('setDecks', decks)
