@@ -2,7 +2,7 @@
   <section>
     <div class="r">
       <div class="ct text-center">
-        <h3>Deck #{{ $route.params.id }}: {{ deck.name }}</h3>
+        <h3>Deck: {{ deck.name }}</h3>
         <div class="tools">
           <button class="btn btn_success">Start now</button>
           <button class="btn btn_primary" @click.prevent="openModal">
@@ -60,6 +60,7 @@
 </template>
 
 <script>
+import axios from 'axios'
 import CardList from '~/components/Cards/CardList.vue'
 export default {
   components: {
@@ -69,27 +70,17 @@ export default {
     return /^[0-9]$/.test(params.id)
   },
   asyncData(context) {
-    return new Promise((resolve, reject) => {
-      // eslint-disable-next-line nuxt/no-timing-in-fetch-data
-      setTimeout(() => {
-        resolve({
-          deck: {
-            _id: 1,
-            name: `Learn English by decks ${context.params.id}`,
-            description:
-              'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-            thumbnail:
-              'https://tranduchuan.com/wp-content/uploads/2019/12/hardest-part-learning-english.jpg',
-          },
-        })
-      }, 1500)
-    })
-      .then((data) => {
-        return data
+    return axios
+      .get(
+        `https://nuxt-learning-english-8bfd6-default-rtdb.asia-southeast1.firebasedatabase.app/decks/${context.params.id}.json`
+      )
+      .then((response) => {
+        return {
+          deck: response.data,
+        }
       })
       .catch((e) => {
-        // eslint-disable-next-line no-console
-        console.log(e)
+        context.error(e)
       })
   },
   data() {
