@@ -29,7 +29,9 @@
     </div>
     <div class="form_group flex justify-end">
       <button class="btn btn_danger" @click.prevent="closeModal">Close</button>
-      <button class="btn btn_success ml-3" type="submit">Create</button>
+      <button class="btn btn_success ml-3" type="submit">
+        {{ editedDeck && editedDeck.id ? 'Edit' : 'Create' }}
+      </button>
     </div>
   </form>
 </template>
@@ -37,7 +39,7 @@
 <script>
 export default {
   props: {
-    decks: {
+    deck: {
       type: Object,
       required: false,
       // eslint-disable-next-line vue/require-valid-default-prop
@@ -57,7 +59,7 @@ export default {
   },
   methods: {
     closeModal() {
-      this.$modal.close({ name: 'CreateDeckModal' })
+      this.$modal.close({ name: 'DeckFormModal' })
     },
     onSave() {
       this.$emit('submit', this.editedDeck)
