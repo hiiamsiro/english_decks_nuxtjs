@@ -16,7 +16,6 @@
 </template>
 
 <script>
-import axios from 'axios'
 import DeckForm from '@/components/Decks/DeckForm'
 import DefaultHeader from '@/components/Header/DefaultHeader'
 import DefaultFooter from '@/components/Footer/DefaultFooter'
@@ -29,38 +28,14 @@ export default {
   methods: {
     onSubmit(deckData) {
       if (deckData && !deckData.id) {
-        axios
-          .post(
-            'https://nuxt-learning-english-8bfd6-default-rtdb.asia-southeast1.firebasedatabase.app/decks.json',
-            deckData
-          )
-          .then((data) => {
-            // eslint-disable-next-line no-console
-            console.log(data)
-          })
-          .catch((e) => {
-            // eslint-disable-next-line no-console
-            console.log(e)
-          })
+        this.$store
+          .dispatch('addDeck', deckData)
+          .then(() => this.$modal.close({ name: 'DeckFormModal' }))
       } else {
-        const deckId = deckData.id
-        delete deckData.id
-
-        axios
-          .put(
-            'https://nuxt-learning-english-8bfd6-default-rtdb.asia-southeast1.firebasedatabase.app/decks/' +
-              deckId +
-              '.json',
-            deckData
-          )
-          .then((data) => {
-            // eslint-disable-next-line no-console
-            console.log(data)
-          })
-          .catch((e) => {
-            // eslint-disable-next-line no-console
-            console.log(e)
-          })
+        this.$store.dispatch('editDeck', deckData).then(() => {
+          this.$modal.close({ name: 'DeckFormModal' })
+          this.$router.push('/decks')
+        })
       }
     },
   },

@@ -9,6 +9,14 @@ const createStore = () => {
       decks: [],
     },
     mutations: {
+      addDeck(state, newDeck) {
+        state.decks.push(newDeck)
+      },
+      editDeck(state, editDeck) {
+        const deckIndex = state.decks.findIndex((deck) => deck.id === editDeck.id);
+
+        state.decks[deckIndex] = editDeck;
+      },
       setDecks(state, decks) {
         state.decks = decks
       },
@@ -25,6 +33,39 @@ const createStore = () => {
             vuexContext.commit('setDecks', decksArr)
           }).catch((e) => {
             context.error(e);
+          })
+      },
+      addDeck(vuexContext, deckData) {
+        return axios
+          .post(
+            'https://nuxt-learning-english-8bfd6-default-rtdb.asia-southeast1.firebasedatabase.app/decks.json',
+            deckData
+          )
+          .then((result) => {
+            vuexContext.commit('addDeck', { ...deckData, id: result.data.name });
+          })
+          .catch((e) => {
+            // eslint-disable-next-line no-console
+            console.log(e)
+          })
+      },
+      editDeck(vuexContext, deckData) {
+        const deckId = deckData.id
+        delete deckData.id
+
+        return axios
+          .put(
+            'https://nuxt-learning-english-8bfd6-default-rtdb.asia-southeast1.firebasedatabase.app/decks/' +
+            deckId +
+            '.json',
+            deckData
+          )
+          .then((result) => {
+            vuexContext.commit('editDeck', { ...result.data, id: deckId });
+          })
+          .catch((e) => {
+            // eslint-disable-next-line no-console
+            console.log(e)
           })
       },
       setDecks(vuexContext, decks) {
