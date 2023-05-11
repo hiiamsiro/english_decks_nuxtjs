@@ -27,6 +27,9 @@ export default {
   components: {
     DeckList,
   },
+  head: {
+    title: 'Decks | Learning English By Flash Card Online',
+  },
   computed: {
     decks() {
       return this.$store.getters.decks

@@ -125,6 +125,11 @@ export default {
       ],
     }
   },
+  head() {
+    return {
+      title: `Deck: ${this.deck.name} | Learning English By Flash Card Online`,
+    }
+  },
   methods: {
     closeModal() {
       this.$modal.close({ name: 'CreateCardModal' })

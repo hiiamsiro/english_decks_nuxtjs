@@ -1,7 +1,7 @@
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'first-nuxt-app',
+    title: 'Learning English By Flash Card Online',
     htmlAttrs: {
       lang: 'en',
     },
