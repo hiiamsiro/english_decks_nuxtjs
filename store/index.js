@@ -1,5 +1,3 @@
-import axios from 'axios'
-
 import Vuex from 'vuex'
 
 const createStore = () => {
@@ -23,12 +21,12 @@ const createStore = () => {
     },
     actions: {
       nuxtServerInit(vuexContext, context) {
-        return axios
-          .get(process.env.baseApiUrl + '/decks.json')
-          .then((response) => {
+        return context.app.$axios
+          .$get(process.env.baseApiUrl + '/decks.json')
+          .then((data) => {
             const decksArr = []
-            for (const key in response.data) {
-              decksArr.push({ ...response.data[key], id: key })
+            for (const key in data) {
+              decksArr.push({ ...data[key], id: key })
             }
             vuexContext.commit('setDecks', decksArr)
           }).catch((e) => {
@@ -36,10 +34,10 @@ const createStore = () => {
           })
       },
       addDeck(vuexContext, deckData) {
-        return axios
-          .post(process.env.baseApiUrl + '/decks.json', deckData)
-          .then((result) => {
-            vuexContext.commit('addDeck', { ...deckData, id: result.data.name });
+        return this.$axios
+          .$post(process.env.baseApiUrl + '/decks.json', deckData)
+          .then((data) => {
+            vuexContext.commit('addDeck', { ...deckData, id: data.name });
           })
           .catch((e) => {
             // eslint-disable-next-line no-console
@@ -50,10 +48,10 @@ const createStore = () => {
         const deckId = deckData.id
         delete deckData.id
 
-        return axios
-          .put(process.env.baseApiUrl + '/decks/' + deckId + '.json', deckData)
-          .then((result) => {
-            vuexContext.commit('editDeck', { ...result.data, id: deckId });
+        return this.$axios
+          .$put(process.env.baseApiUrl + '/decks/' + deckId + '.json', deckData)
+          .then((data) => {
+            vuexContext.commit('editDeck', { ...data, id: deckId });
           })
           .catch((e) => {
             // eslint-disable-next-line no-console

@@ -69,18 +69,17 @@
 </template>
 
 <script>
-import axios from 'axios'
 import CardList from '~/components/Cards/CardList.vue'
 export default {
   components: {
     CardList,
   },
   asyncData(context) {
-    return axios
-      .get(`${process.env.baseApiUrl}/decks/${context.params.id}.json`)
-      .then((response) => {
+    return context.app.$axios
+      .$get(`${process.env.baseApiUrl}/decks/${context.params.id}.json`)
+      .then((data) => {
         return {
-          deck: response.data,
+          deck: data,
         }
       })
       .catch((e) => {
