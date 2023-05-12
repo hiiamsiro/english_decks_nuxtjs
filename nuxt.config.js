@@ -21,6 +21,9 @@ export default {
     ],
   },
 
+  //Loading progress-bar color
+  loading: { color: '#fff', height: '5px' },
+
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: ['~/assets/css/global.min.css', '~/assets/css/external.css'],
 
@@ -52,4 +55,9 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},
+
+  env: {
+    baseURL: process.env.BASE_URL || 'http:localhost:3000',
+    baseApiUrl: process.env.BASE_API_URL || 'https://nuxt-learning-english-8bfd6-default-rtdb.asia-southeast1.firebasedatabase.app'
+  }
 }
