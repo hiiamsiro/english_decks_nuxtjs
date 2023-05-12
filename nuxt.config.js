@@ -59,5 +59,9 @@ export default {
   env: {
     baseURL: process.env.BASE_URL || 'http:localhost:3000',
     baseApiUrl: process.env.BASE_API_URL || 'https://nuxt-learning-english-8bfd6-default-rtdb.asia-southeast1.firebasedatabase.app'
+  },
+
+  router: {
+    middleware: 'router-log'
   }
 }
