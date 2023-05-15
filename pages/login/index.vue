@@ -2,7 +2,7 @@
   <section class="page">
     <div class="card card-form">
       <div class="card_body">
-        <h3 class="text_center">Register</h3>
+        <h3 class="text_center">Login</h3>
         <form @submit.prevent="onSubmit">
           <div class="form_group">
             <label for="email"></label>
@@ -25,25 +25,15 @@
             />
           </div>
           <div class="form_group">
-            <label for="re-password"></label>
-            <input
-              id="re-password"
-              v-model="rePassword"
-              class="form_control"
-              type="password"
-              placeholder="Please enter password again"
-            />
-          </div>
-          <div class="form_group">
             <button type="submit" class="btn btn_success btn-submit">
-              Register
+              Login
             </button>
           </div>
         </form>
         <div class="other texT_center">
           <span
-            >Have your account?
-            <nuxt-link to="/login" tag="a">Login here</nuxt-link></span
+            >Have not your account?
+            <nuxt-link to="/register" tag="a">Register here</nuxt-link></span
           >
         </div>
       </div>
@@ -58,32 +48,22 @@ export default {
     return {
       email: '',
       password: '',
-      rePassword: '',
     }
   },
   methods: {
-    checkValidPassword() {
-      return this.password === this.rePassword
-    },
     onSubmit() {
-      const validPassword = this.checkValidPassword()
-
-      if (validPassword) {
-        // call api to firebase
-        this.$axios
-          .$post(
-            `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${process.env.fbApiKey}`,
-            {
-              email: this.email,
-              password: this.password,
-              returnSecureToken: true,
-            }
-          )
-          .then((result) => console.log(result))
-          .catch((err) => console.log(err))
-      } else {
-        console.log('Password is not valid')
-      }
+      // call api to firebase
+      this.$axios
+        .$post(
+          `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${process.env.fbApiKey}`,
+          {
+            email: this.email,
+            password: this.password,
+            returnSecureToken: true,
+          }
+        )
+        .then((result) => console.log(result))
+        .catch((err) => console.log(err))
     },
   },
 }
