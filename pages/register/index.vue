@@ -69,18 +69,15 @@ export default {
       const validPassword = this.checkValidPassword()
 
       if (validPassword) {
-        // call api to firebase
-        this.$axios
-          .$post(
-            `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${process.env.fbApiKey}`,
-            {
-              email: this.email,
-              password: this.password,
-              returnSecureToken: true,
-            }
-          )
-          .then((result) => console.log(result))
-          .catch((err) => console.log(err))
+        this.$store
+          .dispatch('authenticateUser', {
+            email: this.email,
+            password: this.password,
+            isLogin: false,
+          })
+          .then((result) => {
+            if (result.success) this.$router.push('/decks')
+          })
       } else {
         console.log('Password is not valid')
       }

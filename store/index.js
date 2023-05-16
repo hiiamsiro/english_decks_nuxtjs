@@ -18,6 +18,9 @@ const createStore = () => {
       setDecks(state, decks) {
         state.decks = decks
       },
+      setToken(state, token) {
+        state.token = token
+      }
     },
     actions: {
       nuxtServerInit(vuexContext, context) {
@@ -32,6 +35,36 @@ const createStore = () => {
           }).catch((e) => {
             context.error(e);
           })
+      },
+      authenticateUser(vuexContext, credenticals) {
+        return new Promise((resolve, reject) => {
+          // check login  or register
+          let authUrlApi = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${process.env.fbApiKey}`;
+
+          if (!credenticals.isLogin) {
+            authUrlApi = `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${process.env.fbApiKey}`;
+          }
+
+          // call api to firebase
+          this.$axios
+            .$post(
+              authUrlApi,
+              {
+                email: credenticals.email,
+                password: credenticals.password,
+                returnSecureToken: true,
+              }
+            )
+            .then((result) => {
+              vuexContext.commit('setToken', result.idToken)
+              resolve({ success: true })
+            })
+            .catch((err) => {
+              console.log(err.response);
+              reject(err.response);
+            })
+
+        })
       },
       addDeck(vuexContext, deckData) {
         return this.$axios

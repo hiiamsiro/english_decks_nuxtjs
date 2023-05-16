@@ -47,23 +47,24 @@ export default {
   data() {
     return {
       email: '',
+      isLogin: true,
       password: '',
     }
   },
   methods: {
     onSubmit() {
-      // call api to firebase
-      this.$axios
-        .$post(
-          `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${process.env.fbApiKey}`,
-          {
-            email: this.email,
-            password: this.password,
-            returnSecureToken: true,
-          }
-        )
-        .then((result) => console.log(result))
-        .catch((err) => console.log(err))
+      this.$store
+        .dispatch('authenticateUser', {
+          email: this.email,
+          password: this.password,
+          isLogin: this.isLogin,
+        })
+        .then((result) => {
+          if (result.success) this.$router.push('/decks')
+        })
+        .catch((error) => {
+          console.log(error)
+        })
     },
   },
 }
