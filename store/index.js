@@ -68,7 +68,7 @@ const createStore = () => {
       },
       addDeck(vuexContext, deckData) {
         return this.$axios
-          .$post(process.env.baseApiUrl + '/decks.json', deckData)
+          .$post(process.env.baseApiUrl + '/decks.json?auth=' + vuexContext.state.token, deckData)
           .then((data) => {
             vuexContext.commit('addDeck', { ...deckData, id: data.name });
           })
@@ -82,7 +82,7 @@ const createStore = () => {
         delete deckData.id
 
         return this.$axios
-          .$put(process.env.baseApiUrl + '/decks/' + deckId + '.json', deckData)
+          .$put(process.env.baseApiUrl + '/decks/' + deckId + '.json?auth=' + vuexContext.state.token, deckData)
           .then((data) => {
             vuexContext.commit('editDeck', { ...data, id: deckId });
           })
@@ -99,6 +99,9 @@ const createStore = () => {
       decks(state) {
         return state.decks
       },
+      isAuthenticated(state) {
+        return state.token != null
+      }
     },
   })
 }
