@@ -1,4 +1,5 @@
 import Vuex from 'vuex'
+import Cookies from 'js-cookie'
 
 const createStore = () => {
   // eslint-disable-next-line import/no-named-as-default-member
@@ -11,9 +12,11 @@ const createStore = () => {
         state.decks.push(newDeck)
       },
       editDeck(state, editDeck) {
-        const deckIndex = state.decks.findIndex((deck) => deck.id === editDeck.id);
+        const deckIndex = state.decks.findIndex(
+          (deck) => deck.id === editDeck.id
+        )
 
-        state.decks[deckIndex] = editDeck;
+        state.decks[deckIndex] = editDeck
       },
       setDecks(state, decks) {
         state.decks = decks
@@ -23,7 +26,7 @@ const createStore = () => {
       },
       setToken(state, token) {
         state.token = token
-      }
+      },
     },
     actions: {
       nuxtServerInit(vuexContext, context) {
@@ -35,48 +38,59 @@ const createStore = () => {
               decksArr.push({ ...data[key], id: key })
             }
             vuexContext.commit('setDecks', decksArr)
-          }).catch((e) => {
-            context.error(e);
+          })
+          .catch((e) => {
+            context.error(e)
           })
       },
       authenticateUser(vuexContext, credenticals) {
         return new Promise((resolve, reject) => {
           // check login  or register
-          let authUrlApi = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${process.env.fbApiKey}`;
+          let authUrlApi = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${process.env.fbApiKey}`
 
           if (!credenticals.isLogin) {
-            authUrlApi = `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${process.env.fbApiKey}`;
+            authUrlApi = `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${process.env.fbApiKey}`
           }
 
           // call api to firebase
           this.$axios
-            .$post(
-              authUrlApi,
-              {
-                email: credenticals.email,
-                password: credenticals.password,
-                returnSecureToken: true,
-              }
-            )
+            .$post(authUrlApi, {
+              email: credenticals.email,
+              password: credenticals.password,
+              returnSecureToken: true,
+            })
             .then((result) => {
               vuexContext.commit('setToken', result.idToken)
               localStorage.setItem('token', result.idToken)
-              localStorage.setItem('tokenExpiration', new Date().getTime() + result.expiresIn * 1000)
+              localStorage.setItem(
+                'tokenExpiration',
+                new Date().getTime() + result.expiresIn * 1000
+              )
+
+              Cookies.set('token', result.idToken)
+              Cookies.set(
+                'tokenExpiration',
+                new Date().getTime() + result.expiresIn * 1000
+              )
               vuexContext.dispatch('setLogoutTimer', result.expiresIn * 1000)
               resolve({ success: true })
             })
             .catch((err) => {
-              console.log(err.response);
-              reject(err.response);
+              console.log(err.response)
+              reject(err.response)
             })
-
         })
       },
       addDeck(vuexContext, deckData) {
         return this.$axios
-          .$post(process.env.baseApiUrl + '/decks.json?auth=' + vuexContext.state.token, deckData)
+          .$post(
+            process.env.baseApiUrl +
+              '/decks.json?auth=' +
+              vuexContext.state.token,
+            deckData
+          )
           .then((data) => {
-            vuexContext.commit('addDeck', { ...deckData, id: data.name });
+            vuexContext.commit('addDeck', { ...deckData, id: data.name })
           })
           .catch((e) => {
             // eslint-disable-next-line no-console
@@ -88,9 +102,16 @@ const createStore = () => {
         delete deckData.id
 
         return this.$axios
-          .$put(process.env.baseApiUrl + '/decks/' + deckId + '.json?auth=' + vuexContext.state.token, deckData)
+          .$put(
+            process.env.baseApiUrl +
+              '/decks/' +
+              deckId +
+              '.json?auth=' +
+              vuexContext.state.token,
+            deckData
+          )
           .then((data) => {
-            vuexContext.commit('editDeck', { ...data, id: deckId });
+            vuexContext.commit('editDeck', { ...data, id: deckId })
           })
           .catch((e) => {
             // eslint-disable-next-line no-console
@@ -103,16 +124,38 @@ const createStore = () => {
       setLogoutTimer(vuexContext, duration) {
         setTimeout(() => {
           vuexContext.commit('clearToken')
-        }, duration);
+        }, duration)
       },
-      initAuth(vuexContext) {
-        const token = localStorage.getItem('token');
-        const tokenExpiration = localStorage.getItem('tokenExpiration');
+      initAuth(vuexContext, req) {
+        let token, tokenExpiration
+        if (req) {
+          // Handle first time go to page
+          if (!req.headers.cookie) return false
 
-        if (new Date().getTime() > tokenExpiration || !token) return false;
+          const tokenKey = req.headers.cookie
+            .split(';')
+            .find((c) => c.trim().startsWith('token='))
+          const tokenExpirationKey = req.headers.cookie
+            .split(';')
+            .find((c) => c.trim().startsWith('tokenExpiration='))
 
+          if (!tokenKey || !tokenExpirationKey) return false
+
+          token = tokenKey.split('=')[1]
+          tokenExpiration = tokenExpirationKey.split('=')[1]
+        } else {
+          token = localStorage.getItem('token')
+          tokenExpiration = localStorage.getItem('tokenExpiration')
+
+          if (new Date().getTime() > tokenExpiration || !token) return false
+        }
+
+        vuexContext.dispatch(
+          'setLogoutTimer',
+          tokenExpiration - new Date().getTime()
+        )
         vuexContext.commit('setToken', token)
-      }
+      },
     },
     getters: {
       decks(state) {
@@ -120,7 +163,7 @@ const createStore = () => {
       },
       isAuthenticated(state) {
         return state.token != null
-      }
+      },
     },
   })
 }
