@@ -21,7 +21,7 @@ const createStore = () => {
       setDecks(state, decks) {
         state.decks = decks
       },
-      clearToken(state, token) {
+      clearToken(state) {
         state.token = null
       },
       setToken(state, token) {
@@ -139,7 +139,10 @@ const createStore = () => {
             .split(';')
             .find((c) => c.trim().startsWith('tokenExpiration='))
 
-          if (!tokenKey || !tokenExpirationKey) return false
+          if (!tokenKey || !tokenExpirationKey) {
+            vuexContext.dispatch('logout')
+            return false
+          }
 
           token = tokenKey.split('=')[1]
           tokenExpiration = tokenExpirationKey.split('=')[1]
@@ -147,7 +150,10 @@ const createStore = () => {
           token = localStorage.getItem('token')
           tokenExpiration = localStorage.getItem('tokenExpiration')
 
-          if (new Date().getTime() > tokenExpiration || !token) return false
+          if (new Date().getTime() > tokenExpiration || !token) {
+            vuexContext.dispatch('logout')
+            return false
+          }
         }
 
         vuexContext.dispatch(
@@ -156,6 +162,13 @@ const createStore = () => {
         )
         vuexContext.commit('setToken', token)
       },
+      logout(vuexContext) {
+        vuexContext.commit('clearToken')
+        Cookies.remove('token')
+        Cookies.remove('tokenExpiration')
+        localStorage.removeItem('token')
+        localStorage.removeItem('tokenExpiration')
+      }
     },
     getters: {
       decks(state) {
