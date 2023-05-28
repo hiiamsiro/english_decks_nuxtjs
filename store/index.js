@@ -175,7 +175,7 @@ const createStore = () => {
         return state.decks
       },
       isAuthenticated(state) {
-        return state.token
+        return state.token !== null
       },
     },
   })
