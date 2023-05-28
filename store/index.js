@@ -168,14 +168,14 @@ const createStore = () => {
         Cookies.remove('tokenExpiration')
         localStorage.removeItem('token')
         localStorage.removeItem('tokenExpiration')
-      }
+      },
     },
     getters: {
       decks(state) {
         return state.decks
       },
       isAuthenticated(state) {
-        return state.token != null
+        return state.token
       },
     },
   })

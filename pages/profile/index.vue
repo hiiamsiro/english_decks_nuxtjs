@@ -7,12 +7,12 @@
 
 <script>
 export default {
-  middleware: ['auth','check-auth'],
+  middleware: ['auth', 'check-auth'],
   methods: {
     onLogout() {
       this.$store.dispatch('logout')
-      this.$router.push('/')
-    }
+      this.$router.push('/login')
+    },
   },
 }
 </script>
