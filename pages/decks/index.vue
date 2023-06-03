@@ -24,10 +24,10 @@
 <script>
 import DeckList from '@/components/Decks/DeckList'
 export default {
-  middleware: ['auth', 'check-auth'],
   components: {
     DeckList,
   },
+  middleware: ['auth', 'check-auth'],
   head: {
     title: 'Decks | Learning English By Flash Card Online',
   },

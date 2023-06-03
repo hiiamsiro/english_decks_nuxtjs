@@ -14,12 +14,17 @@ export default {
   props: {
     picture: {
       type: String,
-      required: true,
+      required: false,
+      default: '',
     },
     keyword: {
       type: String,
-      required: true,
+      required: false,
+      default: '',
     },
+  },
+  mounted() {
+    console.log('this.picture', this.picture)
   },
 }
 </script>

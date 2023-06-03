@@ -73,7 +73,7 @@ const createStore = () => {
                 'tokenExpiration',
                 new Date().getTime() + result.expiresIn * 1000
               )
-              vuexContext.dispatch('setLogoutTimer', result.expiresIn * 1000)
+              vuexContext.dispatch('setLogoutTimer', result.expiresIn * 60000)
               resolve({ success: true })
             })
             .catch((err) => {
