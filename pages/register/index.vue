@@ -4,7 +4,7 @@
       <div class="card_body">
         <h3 class="text_center">Register</h3>
         <form @submit.prevent="onSubmit">
-          <div class="form_group">
+          <div class="form_group" style="margin-bottom: 0 !important">
             <label for="email"></label>
             <input
               id="email"
@@ -13,8 +13,9 @@
               type="text"
               placeholder="example@gmail.com"
             />
+            <p class="m-0 text-red-600">{{ emailErr }}</p>
           </div>
-          <div class="form_group">
+          <div class="form_group" style="margin-bottom: 0 !important">
             <label for="password"></label>
             <input
               id="password"
@@ -23,6 +24,7 @@
               type="password"
               placeholder="Please enter password"
             />
+            <p class="m-0 text-red-600">{{ passwordErr }}</p>
           </div>
           <div class="form_group">
             <label for="re-password"></label>
@@ -33,6 +35,7 @@
               type="password"
               placeholder="Please enter password again"
             />
+            <p class="m-0 text-red-600">{{ rePasswordErr }}</p>
           </div>
           <div class="form_group">
             <button type="submit" class="btn btn_success btn-submit">
@@ -40,7 +43,7 @@
             </button>
           </div>
         </form>
-        <div class="other texT_center">
+        <div class="other text_center">
           <span
             >Have your account?
             <nuxt-link to="/login" tag="a">Login here</nuxt-link></span
@@ -59,6 +62,9 @@ export default {
       email: '',
       password: '',
       rePassword: '',
+      emailErr: '',
+      passwordErr: '',
+      rePasswordErr: '',
     }
   },
   methods: {
@@ -78,8 +84,23 @@ export default {
           .then((result) => {
             if (result.success) this.$router.push('/decks')
           })
+          .catch((error) => {
+            switch (error?.data?.error?.message) {
+              case 'INVALID_EMAIL':
+                this.emailErr = 'Please enter a valid email';
+                break;
+              case 'MISSING_PASSWORD':
+                this.passwordErr = 'Please enter your password';
+                break;
+              case 'INVALID_PASSWORD':
+                this.passwordErr = 'Wrong password, please try again!'
+                break;
+              default:
+                break;
+            }
+          })
       } else {
-        console.log('Password is not valid')
+        this.rePasswordErr = 'Password does not match'
       }
     },
   },

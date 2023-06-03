@@ -4,7 +4,7 @@
       <div class="card_body">
         <h3 class="text_center">Login</h3>
         <form @submit.prevent="onSubmit">
-          <div class="form_group">
+          <div class="form_group" style="margin-bottom: 0 !important">
             <label for="email"></label>
             <input
               id="email"
@@ -13,6 +13,7 @@
               type="text"
               placeholder="example@gmail.com"
             />
+            <p class="m-0 text-red-600">{{ emailErr }}</p>
           </div>
           <div class="form_group">
             <label for="password"></label>
@@ -23,6 +24,7 @@
               type="password"
               placeholder="Please enter password"
             />
+            <p class="m-0 text-red-600">{{ passwordErr }}</p>
           </div>
           <div class="form_group">
             <button type="submit" class="btn btn_success btn-submit">
@@ -49,6 +51,8 @@ export default {
       email: '',
       isLogin: true,
       password: '',
+      emailErr: '',
+      passwordErr: '',
     }
   },
   methods: {
@@ -63,7 +67,19 @@ export default {
           if (result.success) this.$router.push('/decks')
         })
         .catch((error) => {
-          console.log(error)
+          switch (error?.data?.error?.message) {
+            case 'INVALID_EMAIL':
+              this.emailErr = 'Please enter a valid email';
+              break;
+            case 'MISSING_PASSWORD':
+              this.passwordErr = 'Please enter your password';
+              break;
+            case 'INVALID_PASSWORD':
+              this.passwordErr = 'Wrong password, please try again!'
+              break;
+            default:
+              break;
+          }
         })
     },
   },
