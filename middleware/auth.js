@@ -1,3 +1,3 @@
 export default function (context) {
-  if (context.store.getters.isAuthenticated == null) context.redirect('/login')
+  if (!context.store.getters.isAuthenticated) context.redirect('/login')
 }

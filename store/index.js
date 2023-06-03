@@ -6,6 +6,7 @@ const createStore = () => {
   return new Vuex.Store({
     state: {
       decks: [],
+      token: '',
     },
     mutations: {
       addDeck(state, newDeck) {
@@ -175,7 +176,7 @@ const createStore = () => {
         return state.decks
       },
       isAuthenticated(state) {
-        return state.token !== null
+        return state.token
       },
     },
   })
