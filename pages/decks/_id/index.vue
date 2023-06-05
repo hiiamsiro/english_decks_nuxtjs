@@ -54,6 +54,19 @@ export default {
         context.error(e)
       })
   },
+  fetch(context) {
+    return context.app.$axios
+      .$get(`${process.env.baseApiUrl}/decks/${context.params.id}/cards.json`)
+      .then((data) => {
+        console.log('data',data)
+        return {
+          card: data,
+        }
+      })
+      .catch((e) => {
+        context.error(e)
+      })
+  },
   data() {
     return {}
   },
