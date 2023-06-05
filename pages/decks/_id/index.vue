@@ -30,7 +30,7 @@
       </div>
     </div>
     <!-- Modal -->
-    <create-card-modal :card="deck" :cardId="this.$route.params.id" />
+    <create-card-modal :card="deck" />
   </section>
 </template>
 
@@ -75,6 +75,9 @@ export default {
         })
       }
     },
+  },
+  created () {
+    if (this.$route.params.id && this.$route.params.id !== undefined) this.$store.dispatch('setCardId', this.$route.params.id)
   },
 }
 </script>

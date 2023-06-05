@@ -7,6 +7,8 @@ const createStore = () => {
     state: {
       decks: [],
       token: '',
+      cards: [],
+      cardId: '',
     },
     mutations: {
       addDeck(state, newDeck) {
@@ -21,6 +23,12 @@ const createStore = () => {
       },
       setDecks(state, decks) {
         state.decks = decks
+      },
+      addCard(state, newCard) {
+        state.cards.push(newCard)
+      },
+      setCardId(state, cardId) {
+        state.cardId = cardId
       },
       clearToken(state) {
         state.token = null
@@ -65,13 +73,13 @@ const createStore = () => {
               localStorage.setItem('token', result.idToken)
               localStorage.setItem(
                 'tokenExpiration',
-                new Date().getTime() + result.expiresIn * 1000
+                new Date().getTime() + result.expiresIn * 60000
               )
 
               Cookies.set('token', result.idToken)
               Cookies.set(
                 'tokenExpiration',
-                new Date().getTime() + result.expiresIn * 1000
+                new Date().getTime() + result.expiresIn * 60000
               )
               vuexContext.dispatch('setLogoutTimer', result.expiresIn * 60000)
               resolve({ success: true })
@@ -121,6 +129,29 @@ const createStore = () => {
       },
       setDecks(vuexContext, decks) {
         vuexContext.commit('setDecks', decks)
+      },
+      addCard(vuexContext, cardData) {
+        const cardId = cardData.id
+
+        return this.$axios
+          .$post(
+            process.env.baseApiUrl +
+              '/decks/' +
+              cardId +
+              '/cards.json?auth=' +
+              vuexContext.state.token,
+            cardData
+          )
+          .then((data) => {
+            vuexContext.commit('addCard', { ...data, id: data.keyword })
+          })
+          .catch((e) => {
+            // eslint-disable-next-line no-console
+            console.log(e)
+          })
+      },
+      setCardId(vuexContext, cardId) {
+        vuexContext.commit('setCardId', cardId)
       },
       setLogoutTimer(vuexContext, duration) {
         setTimeout(() => {
@@ -174,6 +205,12 @@ const createStore = () => {
     getters: {
       decks(state) {
         return state.decks
+      },
+      cards(state) {
+        return state.cards
+      },
+      cardId(state) {
+        return state.cardId
       },
       isAuthenticated(state) {
         return state.token

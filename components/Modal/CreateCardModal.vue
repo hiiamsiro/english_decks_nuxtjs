@@ -36,10 +36,6 @@
 <script>
 export default {
   props: {
-    cardId: {
-      type: String,
-      default: '',
-    },
     card: {
       type: Object,
       required: false,
@@ -54,7 +50,7 @@ export default {
   data() {
     return {
       editedCard: this.card
-        ? { id: this.cardId, ...this.card }
+        ? { id: this.$store.getters.cardId, ...this.card }
         : { keyword: '', picture: '' },
     }
   },
@@ -63,7 +59,7 @@ export default {
       this.$modal.close({ name: 'CreateCardModal' })
     },
     saveCard(cardData) {
-      this.$store.dispatch('editDeck', cardData).then(() => this.closeModal())
+      this.$store.dispatch('addCard', cardData).then(() => this.closeModal())
     },
   },
 }
