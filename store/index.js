@@ -30,6 +30,9 @@ const createStore = () => {
       setCardId(state, cardId) {
         state.cardId = cardId
       },
+      setCards(state, cards) {
+        state.cards = cards
+      },
       clearToken(state) {
         state.token = null
       },
@@ -152,6 +155,9 @@ const createStore = () => {
       },
       setCardId(vuexContext, cardId) {
         vuexContext.commit('setCardId', cardId)
+      },
+      setCards(vuexContext, cards) {
+        vuexContext.commit('setCards', cards)
       },
       setLogoutTimer(vuexContext, duration) {
         setTimeout(() => {

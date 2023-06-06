@@ -21,10 +21,11 @@
         <hr class="divide" />
         <div class="r">
           <card-list
-            :id="deck.id"
-            :key="deck.id"
-            :keyword="deck.keyword"
-            :picture="deck.picture"
+            v-for="card in cards"
+            :id="card.id"
+            :key="card.id"
+            :keyword="card.keyword"
+            :picture="card.picture"
           />
         </div>
       </div>
@@ -54,26 +55,31 @@ export default {
         context.error(e)
       })
   },
+  data() {
+    return {}
+  },
   fetch(context) {
     return context.app.$axios
       .$get(`${process.env.baseApiUrl}/decks/${context.params.id}/cards.json`)
       .then((data) => {
-        console.log('data',data)
-        return {
-          card: data,
+        const cardsArr = []
+        for (const key in data) {
+          cardsArr.push({ ...data[key], id: key })
         }
+        this.$store.dispatch('setCards', cardsArr)
+        console.log('cardsArr',cardsArr)
       })
       .catch((e) => {
         context.error(e)
       })
   },
-  data() {
-    return {}
-  },
   head() {
     return {
       title: `Deck: ${this.deck.name} | Learning English By Flash Card Online`,
     }
+  },
+  created () {
+    if (this.$route.params.id && this.$route.params.id !== undefined) this.$store.dispatch('setCardId', this.$route.params.id)
   },
   methods: {
     openModal(name) {
@@ -89,8 +95,10 @@ export default {
       }
     },
   },
-  created () {
-    if (this.$route.params.id && this.$route.params.id !== undefined) this.$store.dispatch('setCardId', this.$route.params.id)
+  computed: {
+    cards() {
+      return this.$store.getters.cards
+    },
   },
 }
 </script>
