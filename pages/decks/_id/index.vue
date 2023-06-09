@@ -44,11 +44,14 @@ export default {
     CreateCardModal,
   },
   asyncData(context) {
-    return context.app.$axios
-      .$get(`${process.env.baseApiUrl}/decks/${context.params.id}.json`)
+    return context.app.$axios.$get(`${process.env.baseApiUrl}/decks/${context.params.id}/cards.json`)
       .then((data) => {
+        const cardsArr = []
+        for (const key in data) {
+          cardsArr.push({ ...data[key], id: key })
+        }
         return {
-          deck: data,
+          cards: cardsArr,
         }
       })
       .catch((e) => {
@@ -56,18 +59,22 @@ export default {
       })
   },
   data() {
-    return {}
+    return {
+      deck: {
+        name: '',
+        description: '',
+        id: '',
+        thumbnail: '',
+      },
+      cards: [],
+    }
   },
   fetch(context) {
     return context.app.$axios
-      .$get(`${process.env.baseApiUrl}/decks/${context.params.id}/cards.json`)
+      .$get(`${process.env.baseApiUrl}/decks/${context.params.id}.json`)
       .then((data) => {
-        const cardsArr = []
-        for (const key in data) {
-          cardsArr.push({ ...data[key], id: key })
-        }
-        this.$store.dispatch('setCards', cardsArr)
-        console.log('cardsArr',cardsArr)
+        const response = {...data};
+        this.deck = response;
       })
       .catch((e) => {
         context.error(e)
@@ -93,11 +100,6 @@ export default {
           payload: { ...this.deck, id: this.$route.params.id },
         })
       }
-    },
-  },
-  computed: {
-    cards() {
-      return this.$store.getters.cards
     },
   },
 }

@@ -1,5 +1,8 @@
+import Vue from 'vue';
 import Vuex from 'vuex'
 import Cookies from 'js-cookie'
+
+Vue.use(Vuex);
 
 const createStore = () => {
   // eslint-disable-next-line import/no-named-as-default-member
@@ -134,7 +137,7 @@ const createStore = () => {
         vuexContext.commit('setDecks', decks)
       },
       addCard(vuexContext, cardData) {
-        const cardId = cardData.id
+        const cardId = this.getters.cardId
 
         return this.$axios
           .$post(
