@@ -23,8 +23,5 @@ export default {
       default: '',
     },
   },
-  mounted() {
-    console.log('this.picture', this.picture)
-  },
 }
 </script>
