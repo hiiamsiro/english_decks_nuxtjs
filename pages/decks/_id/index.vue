@@ -17,6 +17,12 @@
           >
             Edit Deck
           </button>
+          <button
+            class="btn btn_danger"
+            @click.prevent="openModal('DeleteCardModal')"
+          >
+            Delete Deck
+          </button>
         </div>
         <hr class="divide" />
         <div class="r">
@@ -32,19 +38,23 @@
     </div>
     <!-- Modal -->
     <create-card-modal :card="deck" />
+    <delete-card-modal />
   </section>
 </template>
 
 <script>
 import CardList from '~/components/Cards/CardList.vue'
 import CreateCardModal from '~/components/Modal/CreateCardModal.vue'
+import DeleteCardModal from '~/components/Modal/DeleteCardModal.vue'
 export default {
   components: {
     CardList,
     CreateCardModal,
+    DeleteCardModal,
   },
   asyncData(context) {
-    return context.app.$axios.$get(`${process.env.baseApiUrl}/decks/${context.params.id}/cards.json`)
+    return context.app.$axios
+      .$get(`${process.env.baseApiUrl}/decks/${context.params.id}/cards.json`)
       .then((data) => {
         const cardsArr = []
         for (const key in data) {
@@ -73,8 +83,8 @@ export default {
     return context.app.$axios
       .$get(`${process.env.baseApiUrl}/decks/${context.params.id}.json`)
       .then((data) => {
-        const response = {...data};
-        this.deck = response;
+        const response = { ...data }
+        this.deck = response
       })
       .catch((e) => {
         context.error(e)
@@ -87,20 +97,25 @@ export default {
   },
   computed: {
     cards() {
-      return this.$store.getters.cards;
+      return this.$store.getters.cards
     },
   },
-  mounted () {
-    this.$store.dispatch('setCards', this.cardsArr);
+  mounted() {
+    this.$store.dispatch('setCards', this.cardsArr)
   },
-  created () {
-    if (this.$route.params.id && this.$route.params.id !== undefined) this.$store.dispatch('setCardId', this.$route.params.id)
+  created() {
+    if (this.$route.params.id && this.$route.params.id !== undefined)
+      this.$store.dispatch('setCardId', this.$route.params.id)
   },
   methods: {
     openModal(name) {
       if (name === 'CreateCardModal') {
         this.$modal.open({
           name: 'CreateCardModal',
+        })
+      } else if (name === 'DeleteCardModal') {
+        this.$modal.open({
+          name: 'DeleteCardModal',
         })
       } else if (name === 'DeckFormModal') {
         this.$modal.open({

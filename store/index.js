@@ -1,8 +1,8 @@
-import Vue from 'vue';
+import Vue from 'vue'
 import Vuex from 'vuex'
 import Cookies from 'js-cookie'
 
-Vue.use(Vuex);
+Vue.use(Vuex)
 
 const createStore = () => {
   // eslint-disable-next-line import/no-named-as-default-member
@@ -26,6 +26,13 @@ const createStore = () => {
       },
       setDecks(state, decks) {
         state.decks = decks
+      },
+      deleteDeck(state, deleteDeck) {
+        const deckIndex = state.decks.findIndex(
+          (deck) => deck.id === deleteDeck.id
+        )
+
+        state.decks.splice(deckIndex, 1)
       },
       addCard(state, newCard) {
         state.cards.push(newCard)
@@ -113,7 +120,7 @@ const createStore = () => {
           })
       },
       editDeck(vuexContext, deckData) {
-        const deckId = deckData.id
+        const deckId = this.getters.cardId
         delete deckData.id
 
         return this.$axios
@@ -135,6 +142,27 @@ const createStore = () => {
       },
       setDecks(vuexContext, decks) {
         vuexContext.commit('setDecks', decks)
+      },
+      deleteDeck(vuexContext, deckData) {
+        const deckId = this.getters.cardId
+        delete deckData.id
+
+        return this.$axios
+          .$delete(
+            process.env.baseApiUrl +
+              '/decks/' +
+              deckId +
+              '.json?auth=' +
+              vuexContext.state.token,
+            deckData
+          )
+          .then((data) => {
+            vuexContext.commit('deleteDeck', { ...data, id: deckId })
+          })
+          .catch((e) => {
+            // eslint-disable-next-line no-console
+            console.log(e)
+          })
       },
       addCard(vuexContext, cardData) {
         const cardId = this.getters.cardId

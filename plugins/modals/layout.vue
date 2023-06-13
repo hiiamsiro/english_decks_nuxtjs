@@ -8,7 +8,10 @@
           tabindex="1"
           class="modal_mask"
         >
-          <div class="modal_body">
+          <div
+            :class="name === 'DeleteCardModal' ? 'delete-modal' : ''"
+            class="modal_body"
+          >
             <slot :payload="payload" />
           </div>
         </div>
@@ -75,5 +78,9 @@ export default {
   z-index: 999;
   padding-top: 10px;
   padding-bottom: 10px;
+}
+.delete-modal {
+  background-color: unset !important;
+  padding: 0 !important;
 }
 </style>
