@@ -51,7 +51,7 @@ export default {
           cardsArr.push({ ...data[key], id: key })
         }
         return {
-          cards: cardsArr,
+          cardsArr,
         }
       })
       .catch((e) => {
@@ -66,7 +66,7 @@ export default {
         id: '',
         thumbnail: '',
       },
-      cards: [],
+      cardsArr: [],
     }
   },
   fetch(context) {
@@ -84,6 +84,14 @@ export default {
     return {
       title: `Deck: ${this.deck.name} | Learning English By Flash Card Online`,
     }
+  },
+  computed: {
+    cards() {
+      return this.$store.getters.cards;
+    },
+  },
+  mounted () {
+    this.$store.dispatch('setCards', this.cardsArr);
   },
   created () {
     if (this.$route.params.id && this.$route.params.id !== undefined) this.$store.dispatch('setCardId', this.$route.params.id)

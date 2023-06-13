@@ -149,7 +149,7 @@ const createStore = () => {
             cardData
           )
           .then((data) => {
-            vuexContext.commit('addCard', { ...data, id: data.keyword })
+            vuexContext.commit('addCard', { ...data, id: cardId })
           })
           .catch((e) => {
             // eslint-disable-next-line no-console
