@@ -1,6 +1,6 @@
 <template>
   <div class="ct">
-    <event-alert class="mt-3" />
+    <!-- <event-alert class="mt-3" /> -->
     <div class="banner">
       <div class="thumbnail-banner"></div>
     </div>
