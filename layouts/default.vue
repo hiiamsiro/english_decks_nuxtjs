@@ -1,7 +1,7 @@
 <template>
   <div>
     <default-header></default-header>
-    <Nuxt />
+    <Nuxt class="nuxt-content" />
     <!-- Modal -->
     <v-modal v-slot="payload" name="DeckFormModal">
       <div class="modal_body">
@@ -41,3 +41,11 @@ export default {
   },
 }
 </script>
+
+<style lang="scss">
+.nuxt-content {
+  padding-top: 3.5rem;
+  // 100vh - header - footer
+  min-height: calc(100vh - 60px - 132px);
+}
+</style>
