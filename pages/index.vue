@@ -57,10 +57,10 @@
             </span>
           </p>
           <div class="mt-10 flex items-center justify-center gap-x-6">
-            <a
-              href="#"
+            <nuxt-link
+              to="/decks"
               class="rounded-md bg-gradient-to-r from-cyan-600 to-blue-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-              >Get started</a
+              >Get started</nuxt-link
             >
           </div>
         </div>
@@ -104,8 +104,8 @@ export default {
 </script>
 
 <style lang="scss">
-$tw-gradient-from: #71d16c;
-$tw-gradient-to: #0ea5e9;
+$tw-gradient-from: #99c7e5;
+$tw-gradient-to: #0e8bc5;
 $tw-gradient-stops: $tw-gradient-from, $tw-gradient-to;
 .banner {
   height: 220px;
