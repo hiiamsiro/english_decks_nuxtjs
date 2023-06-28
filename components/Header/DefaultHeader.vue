@@ -9,7 +9,7 @@
           <span class="sr-only">Your Company</span>
           <img
             class="h-8 w-auto"
-            src="@/assets/images/logo_Website.png"
+            src="@/assets/images/logo_website.png"
             alt=""
           />
         </nuxt-link>
